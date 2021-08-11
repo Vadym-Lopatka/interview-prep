@@ -14,3 +14,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.3.1")
 }
+
+tasks.test {
+    useJUnitPlatform()
+}
