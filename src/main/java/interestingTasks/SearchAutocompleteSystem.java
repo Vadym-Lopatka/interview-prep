@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class SearchAutocomplete {
-    class TrieNode {
+public class SearchAutocompleteSystem {
+    private static class TrieNode {
         TrieNode[] sub;
         List<String> top3;
 
@@ -16,45 +16,52 @@ public class SearchAutocomplete {
         }
     }
 
-    TrieNode root;
-    Map<String, Integer> freq;
-    StringBuilder curr;
+    private static final int ALPHABET_SIZE = 26;
 
-    public SearchAutocomplete(String[] sentences, int[] times) {
-        freq = new HashMap<>();
-        root = new TrieNode();
-        for (int i = 0; i < sentences.length; i++) {
-            updateTrie(sentences[i], times[i]);
-        }
-        curr = new StringBuilder();
-    }
+    TrieNode root;
+    Map<String, Integer> frequency;
+    StringBuilder currentInput;
 
     public List<String> input(char c) {
         if (c != '#') {
-            curr.append(c);
+            currentInput.append(c);
             TrieNode node = root;
-            for (int i = 0; i < curr.length(); i++) {
-                char ch = curr.charAt(i);
-                int index = ch == ' ' ? 26 : ch - 'a';
+            for (int i = 0; i < currentInput.length(); i++) {
+                char ch = currentInput.charAt(i);
+                int index = ch == ' ' ? ALPHABET_SIZE : ch - 'a';
                 if (node.sub[index] == null) return new LinkedList<>();
                 else node = node.sub[index];
             }
             return node.top3;
         }
         else {
-            String s = curr.toString();
-            curr = new StringBuilder();
+            String s = currentInput.toString();
+            currentInput = new StringBuilder();
             updateTrie(s, 1);
             return new LinkedList<>();
         }
     }
 
+    public SearchAutocompleteSystem(String[] sentences, int[] times) {
+        currentInput = new StringBuilder();
+        frequency = new HashMap<>();
+        root = new TrieNode();
+
+        initiateState(sentences, times);
+    }
+
+    private void initiateState(String[] sentences, int[] times) {
+        for (int i = 0; i < sentences.length; i++) {
+            updateTrie(sentences[i], times[i]);
+        }
+    }
+
     private void updateTrie (String sentence, int time) {
-        freq.put(sentence, freq.getOrDefault(sentence, 0) + time);
+        frequency.put(sentence, frequency.getOrDefault(sentence, 0) + time);
         TrieNode curr = root;
         for (int i = 0; i < sentence.length(); i++) {
             char c = sentence.charAt(i);
-            int index = c == ' ' ? 26 : c - 'a';
+            int index = c == ' ' ? ALPHABET_SIZE : c - 'a';
             if (curr.sub[index] == null) curr.sub[index] = new TrieNode();
             curr = curr.sub[index];
             updateTop3(sentence, curr.top3);
@@ -78,7 +85,7 @@ public class SearchAutocomplete {
     }
 
     private int compare (String s1, String s2) {
-        return freq.get(s2) - freq.get(s1) == 0 ? s1.compareTo(s2) : freq.get(s2) - freq.get(s1);
+        return frequency.get(s2) - frequency.get(s1) == 0 ? s1.compareTo(s2) : frequency.get(s2) - frequency.get(s1);
     }
 
 
