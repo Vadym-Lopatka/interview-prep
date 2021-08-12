@@ -17,12 +17,25 @@ class BubbleSortTest {
     }
 
     @Test
-    public void should() {
+    public void shouldSort() {
         // given
         int[] arr = new int[]{0, -1, 9, 5, 7};
 
         // when
         bubbleSort.sort(arr);
+
+        // then
+        boolean condition = Arrays.equals(new int[]{-1, 0, 5, 7, 9}, arr);
+        assertTrue(condition);
+    }
+
+    @Test
+    public void shouldSortRecursively() {
+        // given
+        int[] arr = new int[]{0, -1, 9, 5, 7};
+
+        // when
+        bubbleSort.sortRecursively(arr);
 
         // then
         boolean condition = Arrays.equals(new int[]{-1, 0, 5, 7, 9}, arr);

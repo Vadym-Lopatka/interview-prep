@@ -19,4 +19,22 @@ public class BubbleSort {
         ints[firstIndex] = ints[secondIndex];
         ints[secondIndex] = buffer;
     }
+
+    public void sortRecursively(int[] ints) {
+        bubbleSortViaRecursion(ints, ints.length);
+    }
+
+    private void bubbleSortViaRecursion(int[] ints, int length) {
+        if (length <= 0) {
+            return;
+        }
+
+        for (int i = 0; i < length - 1; i++) {
+            if (ints[i] > ints[i + 1]) {
+                swap(ints, i, i + 1);
+            }
+        }
+
+        bubbleSortViaRecursion(ints, length - 1);
+    }
 }
