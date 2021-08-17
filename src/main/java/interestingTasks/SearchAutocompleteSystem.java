@@ -6,23 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchAutocompleteSystem {
-    private static class TrieNode {
-        TrieNode[] sub;
-        List<String> top3;
-
-        TrieNode() {
-            sub = new TrieNode[27];
-            top3 = new LinkedList<>();
-        }
-    }
-
     private static final int ALPHABET_SIZE = 26;
-
     StringBuilder currentInput;
     Map<String, Integer> frequency;
     TrieNode root;
-
-
     public SearchAutocompleteSystem(String[] sentences, int[] times) {
         currentInput = new StringBuilder();
         frequency = new HashMap<>();
@@ -79,9 +66,7 @@ public class SearchAutocompleteSystem {
 
     private void updateTop3(String sentence, List<String> top3) {
 
-        if (top3.contains(sentence)) {
-            top3.remove(sentence);
-        }
+        top3.remove(sentence);
 
         if (top3.size() == 0) {
             top3.add(sentence);
@@ -100,6 +85,16 @@ public class SearchAutocompleteSystem {
 
     private int compare(String s1, String s2) {
         return frequency.get(s2) - frequency.get(s1) == 0 ? s1.compareTo(s2) : frequency.get(s2) - frequency.get(s1);
+    }
+
+    private static class TrieNode {
+        TrieNode[] sub;
+        List<String> top3;
+
+        TrieNode() {
+            sub = new TrieNode[27];
+            top3 = new LinkedList<>();
+        }
     }
 
 
