@@ -9,11 +9,11 @@ import java.util.Map;
  */
 public class LRUCache<K, V> implements Cache<K, V> {
 
-    private int size;
     private final int capacity;
     private final DoublyLinkedNode<K, V> head;
     private final DoublyLinkedNode<K, V> tail;
     private final Map<K, DoublyLinkedNode<K, V>> keyToNode;
+    private int size;
 
 
     public LRUCache(int capacity) {

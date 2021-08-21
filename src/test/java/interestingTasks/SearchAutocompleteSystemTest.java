@@ -11,10 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 class SearchAutocompleteSystemTest {
 
-    private SearchAutocompleteSystem sutSystem;
-
     private final String[] sentences = new String[]{"i love programming", "instruction", "iphone", "i love to read"};
     private final int[] usageFrequency = new int[]{6, 4, 3, 3};
+    private SearchAutocompleteSystem sutSystem;
 
     @BeforeEach
     public void setup() {
