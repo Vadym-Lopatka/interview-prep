@@ -10,6 +10,7 @@ public class SearchAutocompleteSystem {
     StringBuilder currentInput;
     Map<String, Integer> frequency;
     TrieNode root;
+
     public SearchAutocompleteSystem(String[] sentences, int[] times) {
         currentInput = new StringBuilder();
         frequency = new HashMap<>();
