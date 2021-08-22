@@ -94,4 +94,19 @@ class LRUCacheTest {
         assertNotNull(cache.get(4));
     }
 
+    @Test
+    public void shouldUpdateTheExistingKeyWhenPutOnFullCapacity() {
+        // given
+        LRUCache<Integer, Integer> cache = new LRUCache<>(2);
+        int keyThatWillBeUpdatedOnFullCapacity = 2;
+
+        // when
+        cache.put(keyThatWillBeUpdatedOnFullCapacity, 1);
+        cache.put(1, 1);
+        cache.put(keyThatWillBeUpdatedOnFullCapacity, 3);
+
+        // then
+        assertEquals(Integer.valueOf(3), cache.get(2));
+    }
+
 }

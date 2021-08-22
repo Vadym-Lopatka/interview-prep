@@ -49,17 +49,17 @@ public class LRUCache<K, V> implements Cache<K, V> {
             moveToHead(node);
         } else {
             node = new DoublyLinkedNode<K, V>(key, value);
+
+            if (size == capacity) {
+                DoublyLinkedNode<K, V> tail = popTail();
+                keyToNode.remove(tail.key);
+                size = size - 1;
+            }
+
             addNode(node);
+            keyToNode.put(key, node);
+            size = size + 1;
         }
-
-        if (size == capacity) {
-            DoublyLinkedNode<K, V> tail = popTail();
-            keyToNode.remove(tail.key);
-            size = size - 1;
-        }
-
-        keyToNode.put(key, node);
-        size = size + 1;
     }
 
     private DoublyLinkedNode<K, V> popTail() {
