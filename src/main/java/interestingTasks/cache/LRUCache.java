@@ -12,7 +12,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
     private final int capacity;
     private final DoublyLinkedNode<K, V> head;
     private final DoublyLinkedNode<K, V> tail;
-    private final Map<K, DoublyLinkedNode<K, V>> keyToNode;
+    private final Map<K, DoublyLinkedNode<K, V>> keyStore;
     private int size;
 
 
@@ -20,7 +20,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
         this.size = 0;
         this.capacity = capacity;
 
-        this.keyToNode = new HashMap<>(capacity);
+        this.keyStore = new HashMap<>(capacity);
 
         this.head = new DoublyLinkedNode<K, V>();
         this.tail = new DoublyLinkedNode<K, V>();
@@ -31,7 +31,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
     @Override
     public V get(K key) {
-        DoublyLinkedNode<K, V> result = keyToNode.get(key);
+        DoublyLinkedNode<K, V> result = keyStore.get(key);
         if (result == null) {
             return null;
         }
@@ -42,7 +42,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
     @Override
     public void put(K key, V value) {
-        DoublyLinkedNode<K, V> node = keyToNode.get(key);
+        DoublyLinkedNode<K, V> node = keyStore.get(key);
 
         if (node != null) {
             node.value = value;
@@ -52,12 +52,12 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
             if (size == capacity) {
                 DoublyLinkedNode<K, V> tail = popTail();
-                keyToNode.remove(tail.key);
+                keyStore.remove(tail.key);
                 size = size - 1;
             }
 
             addNode(node);
-            keyToNode.put(key, node);
+            keyStore.put(key, node);
             size = size + 1;
         }
     }
@@ -100,7 +100,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
     @Override
     public int size() {
-        return keyToNode.size();
+        return keyStore.size();
     }
 
 
